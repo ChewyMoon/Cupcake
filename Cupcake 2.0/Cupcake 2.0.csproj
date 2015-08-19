@@ -125,7 +125,6 @@
     <Compile Include="numl\Model\StringProperty.cs" />
     <Compile Include="numl\PreProcessing\FeatureDimensions.cs" />
     <Compile Include="numl\PreProcessing\FeatureNormalizer.cs" />
-    <Compile Include="numl\Properties\AssemblyInfo.cs" />
     <Compile Include="numl\Supervised\DecisionTree\DecisionTreeGenerator.cs" />
     <Compile Include="numl\Supervised\DecisionTree\DecisionTreeModel.cs" />
     <Compile Include="numl\Supervised\DecisionTree\Node.cs" />
