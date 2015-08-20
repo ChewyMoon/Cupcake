@@ -19,7 +19,6 @@
 //   Represents the output of the prediction.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace CupcakePrediction
 {
     using LeagueSharp.Common;

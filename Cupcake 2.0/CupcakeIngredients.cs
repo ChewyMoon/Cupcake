@@ -123,13 +123,13 @@ namespace CupcakePrediction
 
         #endregion
 
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
         ///     Converts this instance of <see cref="CupcakeIngredients" /> to a <see cref="CupcakeIngredientX" />
         /// </summary>
         /// <returns>The converted <see cref="CupcakeIngredientX" /></returns>
-        internal CupcakeIngredientX ToXIngredient()
+        public CupcakeIngredientX ToXIngredient()
         {
             return new CupcakeIngredientX()
                        {
@@ -143,7 +143,7 @@ namespace CupcakePrediction
         ///     Converts this instance of <see cref="CupcakeIngredients" /> to a <see cref="CupcakeIngredientY" />
         /// </summary>
         /// <returns>The converted <see cref="CupcakeIngredientY" /></returns>
-        internal CupcakeIngredientY ToYIngredient()
+        public CupcakeIngredientY ToYIngredient()
         {
             return new CupcakeIngredientY()
                        {

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright company="ChewyMoon" file="RBFKernel.cs">
+// <copyright file="RBFKernel.cs" company="ChewyMoon">
 //   Copyright (C) 2015 ChewyMoon
 //   
 //   This program is free software: you can redistribute it and/or modify

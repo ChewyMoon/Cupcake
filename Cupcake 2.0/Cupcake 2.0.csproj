@@ -167,6 +167,7 @@
     <Compile Include="numl\Utils\TypeHelpers.cs" />
     <Compile Include="numl\Utils\Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CupcakePan.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -20,17 +20,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+
+
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cupcake 2.0")]
+[assembly: AssemblyTitle("CupcakeTrainer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Cupcake 2.0")]
+[assembly: AssemblyProduct("CupcakeTrainer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -41,7 +43,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("68012b90-cfa2-4919-93bf-2f08a06b4f49")]
+[assembly: Guid("1c624cdd-9eaa-456b-8fc3-bd1d8fc0af29")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version

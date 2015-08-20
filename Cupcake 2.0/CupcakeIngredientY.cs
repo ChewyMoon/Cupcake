@@ -19,7 +19,6 @@
 //   The Y coordinate of the prediction.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace CupcakePrediction
 {
     using System.Collections.Generic;
@@ -30,7 +29,7 @@ namespace CupcakePrediction
     /// <summary>
     ///     The Y coordinate of the prediction.
     /// </summary>
-    internal class CupcakeIngredientY
+    public class CupcakeIngredientY
     {
         #region Public Properties
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CentroidLinker.cs" company="ChewyMoon">
+// <copyright file="CupcakePan.cs" company="ChewyMoon">
 //   Copyright (C) 2015 ChewyMoon
 //   
 //   This program is free software: you can redistribute it and/or modify
@@ -16,51 +16,49 @@
 //   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // </copyright>
 // <summary>
-//   A centroid linker.
+//   Holds a representation of training data. This data is deserialized from JSON.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace numl.Math.Linkers
+
+namespace CupcakePrediction
 {
     using System.Collections.Generic;
 
-    using numl.Math.LinearAlgebra;
-    using numl.Math.Metrics;
-
-    /// <summary>A centroid linker.</summary>
-    public class CentroidLinker : ILinker
+    /// <summary>
+    ///     Holds a representation of training data. This data is deserialized from JSON.
+    /// </summary>
+    public class CupcakePan
     {
-        #region Fields
-
-        /// <summary>The metric.</summary>
-        private readonly IDistance _metric;
-
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="CentroidLinker" /> class. Constructor.
+        ///     Initializes a new instance of the <see cref="CupcakePan" /> class.
         /// </summary>
-        /// <param name="metric">
-        ///     The metric.
-        /// </param>
-        public CentroidLinker(IDistance metric)
+        public CupcakePan()
         {
-            this._metric = metric;
+            this.X = new List<CupcakeIngredientX>();
+            this.Y = new List<CupcakeIngredientY>();
         }
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Public Properties
 
-        /// <summary>Distances.</summary>
-        /// <param name="x">The IEnumerable&lt;Vector&gt; to process.</param>
-        /// <param name="y">The IEnumerable&lt;Vector&gt; to process.</param>
-        /// <returns>A double.</returns>
-        public double Distance(IEnumerable<Vector> x, IEnumerable<Vector> y)
-        {
-            return this._metric.Compute(x.Mean(), y.Mean());
-        }
+        /// <summary>
+        ///     Gets or sets the x.
+        /// </summary>
+        /// <value>
+        ///     The x.
+        /// </value>
+        public List<CupcakeIngredientX> X { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the y.
+        /// </summary>
+        /// <value>
+        ///     The y.
+        /// </value>
+        public List<CupcakeIngredientY> Y { get; set; }
 
         #endregion
     }
