@@ -82,6 +82,7 @@ namespace CupcakeTrainer
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", 
             Justification = "Reviewed. Suppression is OK here.")]
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         private static void LoadJson()
         {
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CupcakeData.json");

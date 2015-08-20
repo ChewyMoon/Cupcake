@@ -52,7 +52,7 @@ namespace CupcakePrediction
         /// <value>
         ///     The cast position.
         /// </value>
-        public Vector3 CastPosition { get; }
+        public Vector3 CastPosition { get; internal set; }
 
         #endregion
     }

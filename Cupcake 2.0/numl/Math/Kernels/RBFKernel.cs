@@ -53,7 +53,7 @@ namespace numl.Math.Kernels
 
         /// <summary>RBF free parameter.</summary>
         /// <value>The sigma.</value>
-        public double Sigma { get; }
+        public double Sigma { get; internal set; }
 
         #endregion
 

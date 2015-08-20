@@ -49,7 +49,7 @@ namespace numl.Math.Kernels
         ///     Specifies dimensionality of projection based on (1 + x.T y)^d where d is the dimension.
         /// </summary>
         /// <value>The dimension.</value>
-        public double Dimension { get; }
+        public double Dimension { get; internal set; }
 
         #endregion
 
