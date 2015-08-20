@@ -23,14 +23,18 @@
 namespace CupcakeTrainer
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Linq;
     using System.Security.Permissions;
 
     using CupcakePrediction;
 
     using LeagueSharp;
     using LeagueSharp.Common;
+
+    using numl.Math.LinearAlgebra;
 
     using Newtonsoft.Json;
 
@@ -57,6 +61,11 @@ namespace CupcakeTrainer
         ///     The pan
         /// </summary>
         private static CupcakePan pan;
+
+        /// <summary>
+        /// The target waypoints
+        /// </summary>
+        private static IEnumerable<Vector> targetWaypoints;
 
         #endregion
 
@@ -109,8 +118,10 @@ namespace CupcakeTrainer
         /// <param name="args">The <see cref="AttackableUnitDamageEventArgs" /> instance containing the event data.</param>
         private static void Obj_AI_Base_OnDamage(AttackableUnit sender, AttackableUnitDamageEventArgs args)
         {
-            if (!sender.IsMe)
+            Game.PrintChat("ONDDAMAGE");
+            if (args.SourceNetworkId != ObjectManager.Player.NetworkId)
             {
+                Game.PrintChat("not me");
                 return;
             }
 
@@ -125,6 +136,8 @@ namespace CupcakeTrainer
             var ingredients = new CupcakeIngredients(
                 ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.TargetNetworkId), 
                 spell);
+
+            ingredients.Waypoints = targetWaypoints;
 
             var x = ingredients.ToXIngredient();
             var y = ingredients.ToYIngredient();
@@ -152,6 +165,7 @@ namespace CupcakeTrainer
 
             lastSpellCast = args.SData;
             lastSpellLocation = args.End;
+            targetWaypoints = HeroManager.Enemies.FirstOrDefault(x => x.IsEnemy).GetWaypoints().Select(x => x.ToNumlVector());
         }
 
         /// <summary>
@@ -162,10 +176,23 @@ namespace CupcakeTrainer
             Justification = "Reviewed. Suppression is OK here.")]
         private static void SaveJson()
         {
-            var json = JsonConvert.SerializeObject(pan, Formatting.None);
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CupcakeData.json");
+            try
+            {
+                var json = JsonConvert.SerializeObject(pan, Formatting.None);
+                var path = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "CupcakeData.json");
 
-            File.WriteAllText(path, json);
+                Game.PrintChat(path);
+
+                File.WriteAllText(path, json);
+                
+            }
+            catch (Exception e)
+            {
+                Game.PrintChat(e.Message);
+            }
+            
         }
 
         #endregion

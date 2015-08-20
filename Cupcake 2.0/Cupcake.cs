@@ -23,6 +23,13 @@ namespace CupcakePrediction
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Security.Permissions;
+    using System.Text;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using CupcakePrediction.Properties;
 
     using LeagueSharp;
 
@@ -30,6 +37,8 @@ namespace CupcakePrediction
     using numl.Model;
     using numl.Supervised;
     using numl.Supervised.Regression;
+
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Provides API for getting prediction using machine learning algorithms.
@@ -58,7 +67,8 @@ namespace CupcakePrediction
         /// <value>
         ///     <c>true</c> if initialized; otherwise, <c>false</c>.
         /// </value>
-        public static bool Initialized { get; internal set; }
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed. Suppression is OK here.")]
+        public static volatile bool Initialized;
 
         #endregion
 
@@ -67,21 +77,64 @@ namespace CupcakePrediction
         /// <summary>
         ///     Initializes this instance.
         /// </summary>
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public static void Initialize()
         {
+            try
+            {
+                new Thread(LoadPrediction).Start();  
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+        }
+
+        /// <summary>
+        /// Loads the prediction.
+        /// </summary>
+        private static void LoadPrediction()
+        {
+            var cupcakeData = Encoding.UTF8.GetString(Resources.CupcakeData);
+            var cupcakePan = JsonConvert.DeserializeObject<CupcakePan>(cupcakeData);
+
             // Initalize the X model
-            var generatorX = new LinearRegressionGenerator { Descriptor = Descriptor.Create<CupcakeIngredientX>() };
-            var learnedX = Learner.Learn(new List<CupcakeIngredientX>(), 0.80, 1000, generatorX);
+            var generatorX = new LinearRegressionGenerator
+            {
+                Descriptor =
+                                         Descriptor.For<CupcakeIngredientX>()
+                                         .With(x => x.Delay)
+                                         .With(x => x.MissileSpeed)
+                                         .WithEnumerable(x => x.SourcePosition, 3)
+                                         .WithEnumerable(x => x.TargetPosition, 3)
+                                         //.WithEnumerable(x => x.Waypoints, 3)
+                                         .With(x => x.TargetMoveSpeed)
+                                         .With(x => x.Width)
+                                         .Learn(x => x.BakedX)
+            };
+            var learnedX = Learner.Learn(cupcakePan.X, 0.80, 1000, generatorX);
             xmodel = learnedX.Model;
 
             // Initalize the Y model
-            var generatorY = new LinearRegressionGenerator() { Descriptor = Descriptor.Create<CupcakeIngredientY>() };
-            var learnedY = Learner.Learn(new List<CupcakeIngredientY>(), 0.80, 1000, generatorY);
+            var generatorY = new LinearRegressionGenerator()
+            {
+                Descriptor =
+                                         Descriptor.For<CupcakeIngredientY>()
+                                         .With(x => x.Delay)
+                                         .With(x => x.MissileSpeed)
+                                         .WithEnumerable(x => x.SourcePosition, 3)
+                                         .WithEnumerable(x => x.TargetPosition, 3)
+                                         // .WithEnumerable(x => x.Waypoints, 3)
+                                         .With(x => x.TargetMoveSpeed)
+                                         .With(x => x.Width)
+                                         .Learn(x => x.BakedY)
+            };
+            var learnedY = Learner.Learn(cupcakePan.Y, 0.80, 1000, generatorY);
             ymodel = learnedY.Model;
 
-            Game.PrintChat(
-                "<font color=\"#E536F5\"><b>Cupcake 2.0:</b></font> loaded! Accuracy: {0}%", 
-                (int)((learnedX.Accuracy + learnedY.Accuracy) / 2));
+           
 
             Initialized = true;
         }
@@ -93,7 +146,8 @@ namespace CupcakePrediction
         /// <returns>
         ///     <see cref="BakedCupcake" />
         /// </returns>
-        public BakedCupcake GetPrediction(CupcakeIngredients input)
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public static BakedCupcake GetPrediction(CupcakeIngredients input)
         {
             if (!Initialized)
             {
